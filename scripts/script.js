@@ -2,6 +2,8 @@
   const theme = localStorage.getItem('theme');
   if (theme) {
     setTheme(theme);
+  } else {
+    document.documentElement.classList.add('theme-auto');
   }
 })();
 
@@ -10,15 +12,15 @@ document.addEventListener('DOMContentLoaded', () => {
     .find((cn) => cn.startsWith('theme-'))
     ?.replace('theme-', '');
   const themeButtons = [
-    ...document.querySelectorAll('.header__theme-menu-button'),
+    ...document.querySelectorAll('.header-theme-menu-button'),
   ];
   setActiveButton(themeButtons, currentTheme);
 
   themeButtons.forEach((button) => {
     button.addEventListener('click', () => {
       const chosenTheme = [...button.classList]
-        .find((cn) => cn.includes('_type_'))
-        .split('_type_')[1];
+        .find((cn) => cn.includes('-type-'))
+        .split('-type-')[1];
       setTheme(chosenTheme);
       setActiveButton(themeButtons, chosenTheme);
     });
@@ -33,20 +35,20 @@ function setTheme(theme) {
 
 function setActiveButton(buttonsArray, theme) {
   buttonsArray.forEach((button) => {
-    button.classList.remove('header__theme-menu-button_active');
+    button.classList.remove('header-theme-menu-button-active');
     button.removeAttribute('disabled');
   });
   const target = buttonsArray.find((button) =>
-    button.classList.contains(`header__theme-menu-button_type_${theme}`)
+    button.classList.contains(`header-theme-menu-button-type-${theme}`)
   );
   if (target) {
-    target.classList.add('header__theme-menu-button_active');
+    target.classList.add('header-theme-menu-button-active');
     target.setAttribute('disabled', true);
   } else {
     const autoButton = document.querySelector(
-      '.header__theme-menu-button_type_auto'
+      '.header-theme-menu-button-type-auto'
     );
-    autoButton.classList.add('header__theme-menu-button_active');
+    autoButton.classList.add('header-theme-menu-button-active');
     autoButton.setAttribute('disabled', true);
   }
 }
